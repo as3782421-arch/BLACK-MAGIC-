@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kaala Rahasya – The Dark Oracle</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=UnifrakturMaguntia&family=MedievalSharp&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<!-- PARTICLE CANVAS -->
+<canvas id="particles" style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;pointer-events:none;"></canvas>
+
+<!-- SMOKE OVERLAY -->
+<div class="smoke-overlay" style="pointer-events:none;"></div>
+
+<!-- BLOOD DRIP TOP -->
+<div class="blood-drip-bar" style="pointer-events:none;"></div>
+
+<!-- INTRO SCREEN -->
+<div id="intro-screen" class="screen active">
+  <div class="pentagram-container">
+    <svg class="pentagram" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+      <polygon points="100,10 40,198 190,78 10,78 160,198" class="star-shape"/>
+      <circle cx="100" cy="100" r="95" class="star-circle"/>
+    </svg>
+    <div class="eye-of-oracle">👁</div>
+  </div>
+  <h1 class="site-title">काला रहस्य</h1>
+  <h2 class="site-subtitle">KAALA RAHASYA</h2>
+  <p class="site-tagline">The Ancient Dark Oracle — Where Shadows Speak</p>
+  <p class="intro-desc">Secrets whispered by the void. Answers hidden in the dark. The tantrik awaits your truth.</p>
+  <button class="cta-btn" onclick="showScreen('religion-screen')">
+    <span class="btn-rune">ᚷ</span> Enter the Sanctum <span class="btn-rune">ᚷ</span>
+  </button>
+  <div class="scroll-runes">ᚠ ᚢ ᚦ ᚨ ᚱ ᚲ ᚷ ᚹ ᚺ ᚾ ᛁ ᛃ ᛇ ᛈ ᛉ ᛊ ᛏ ᛒ ᛖ ᛗ ᛚ ᛜ ᛞ ᛟ</div>
+</div>
+
+<!-- RELIGION SCREEN -->
+<div id="religion-screen" class="screen">
+  <div class="screen-header">
+    <div class="flame-icon">🕯️</div>
+    <h2>First, the Oracle Must Know Your Faith</h2>
+    <p>Black magic manifests differently across sacred traditions. Select your path.</p>
+  </div>
+
+  <div class="religion-grid">
+    <div class="religion-card" data-rel="Hindu" onclick="selectReligion(this)">
+      <div class="rel-symbol">🕉️</div>
+      <div class="rel-name">Hinduism</div>
+      <div class="rel-magic">Tantrik / Vashikaran / Aghori</div>
+    </div>
+    <div class="religion-card" data-rel="Islam" onclick="selectReligion(this)">
+      <div class="rel-symbol">☪️</div>
+      <div class="rel-name">Islam</div>
+      <div class="rel-magic">Sihr / Jinnat / Amal</div>
+    </div>
+    <div class="religion-card" data-rel="Christianity" onclick="selectReligion(this)">
+      <div class="rel-symbol">✝️</div>
+      <div class="rel-name">Christianity</div>
+      <div class="rel-magic">Hexes / Curses / Demonology</div>
+    </div>
+    <div class="religion-card" data-rel="Judaism" onclick="selectReligion(this)">
+      <div class="rel-symbol">✡️</div>
+      <div class="rel-name">Judaism</div>
+      <div class="rel-magic">Kabbalah / Golem / Dybbuk</div>
+    </div>
+    <div class="religion-card" data-rel="Buddhism" onclick="selectReligion(this)">
+      <div class="rel-symbol">☸️</div>
+      <div class="rel-name">Buddhism</div>
+      <div class="rel-magic">Dark Mantras / Bon Rituals</div>
+    </div>
+    <div class="religion-card" data-rel="Tribal" onclick="selectReligion(this)">
+      <div class="rel-symbol">🌑</div>
+      <div class="rel-name">Tribal / Shamanic</div>
+      <div class="rel-magic">Voodoo / Juju / Obeah</div>
+    </div>
+    <div class="religion-card" data-rel="Pagan" onclick="selectReligion(this)">
+      <div class="rel-symbol">🌙</div>
+      <div class="rel-name">Pagan / Wiccan</div>
+      <div class="rel-magic">Spells / Sabbat / Coven</div>
+    </div>
+    <div class="religion-card" data-rel="Agnostic" onclick="selectReligion(this)">
+      <div class="rel-symbol">⚫</div>
+      <div class="rel-name">Non-Religious / Agnostic</div>
+      <div class="rel-magic">Universal Dark Arts</div>
+    </div>
+  </div>
+
+  <button class="cta-btn disabled" id="rel-next-btn" onclick="goToDetails()">
+    <span class="btn-rune">ᛟ</span> Proceed to the Ritual <span class="btn-rune">ᛟ</span>
+  </button>
+</div>
+
+<!-- DETAILS SCREEN -->
+<div id="details-screen" class="screen">
+  <div class="screen-header">
+    <div class="flame-icon">🔮</div>
+    <h2>The Oracle Seeks to Understand You</h2>
+    <p id="details-subtitle">Answer truthfully. The spirits see all.</p>
+  </div>
+
+  <div class="form-grid">
+    <div class="form-group">
+      <label>Your Name (or Alias)</label>
+      <input type="text" id="inp-name" placeholder="Enter your name..." class="dark-input" />
+    </div>
+    <div class="form-group">
+      <label>Your Gender</label>
+      <div class="radio-group">
+        <label class="radio-label"><input type="radio" name="gender" value="Male" /> <span>♂ Male</span></label>
+        <label class="radio-label"><input type="radio" name="gender" value="Female" /> <span>♀ Female</span></label>
+        <label class="radio-label"><input type="radio" name="gender" value="Other" /> <span>⚧ Other</span></label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Your Country / Region</label>
+      <select id="inp-country" class="dark-input">
+        <option value="">-- Select your land --</option>
+        <option>India</option><option>Pakistan</option><option>Bangladesh</option>
+        <option>Nepal</option><option>Sri Lanka</option><option>Afghanistan</option>
+        <option>Nigeria</option><option>Ghana</option><option>Egypt</option>
+        <option>Saudi Arabia</option><option>Iran</option><option>Iraq</option>
+        <option>USA</option><option>UK</option><option>Canada</option>
+        <option>Australia</option><option>Germany</option><option>Brazil</option>
+        <option>Mexico</option><option>Indonesia</option><option>Other</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label>Moon Phase of Your Birth (if known)</label>
+      <select id="inp-moon" class="dark-input">
+        <option value="">-- Select moon phase --</option>
+        <option>🌑 New Moon</option>
+        <option>🌒 Waxing Crescent</option>
+        <option>🌓 First Quarter</option>
+        <option>🌔 Waxing Gibbous</option>
+        <option>🌕 Full Moon</option>
+        <option>🌖 Waning Gibbous</option>
+        <option>🌗 Last Quarter</option>
+        <option>🌘 Waning Crescent</option>
+        <option>I don't know</option>
+      </select>
+    </div>
+    <div class="form-group full-width">
+      <label>Nature of Your Problem</label>
+      <div class="problem-tags" id="problem-tags">
+        <span class="ptag" onclick="toggleTag(this)">💔 Love / Breakup</span>
+        <span class="ptag" onclick="toggleTag(this)">👁️ Evil Eye (Nazar)</span>
+        <span class="ptag" onclick="toggleTag(this)">💰 Financial Ruin</span>
+        <span class="ptag" onclick="toggleTag(this)">🏠 Family Conflict</span>
+        <span class="ptag" onclick="toggleTag(this)">😈 Enemy / Revenge</span>
+        <span class="ptag" onclick="toggleTag(this)">🧿 Jinn / Spirit Attack</span>
+        <span class="ptag" onclick="toggleTag(this)">🔗 Binding Spell</span>
+        <span class="ptag" onclick="toggleTag(this)">🤒 Unexplained Illness</span>
+        <span class="ptag" onclick="toggleTag(this)">💤 Sleep Disturbance / Nightmares</span>
+        <span class="ptag" onclick="toggleTag(this)">🌀 Mental Unrest / Obsession</span>
+        <span class="ptag" onclick="toggleTag(this)">🧪 Black Magic Removal</span>
+        <span class="ptag" onclick="toggleTag(this)">📿 Protection / Kavach</span>
+        <span class="ptag" onclick="toggleTag(this)">💼 Career / Business Sabotage</span>
+        <span class="ptag" onclick="toggleTag(this)">🔮 Future Reading</span>
+      </div>
+    </div>
+    <div class="form-group full-width">
+      <label>Describe Your Problem to the Oracle</label>
+      <textarea id="inp-problem" class="dark-input" rows="5" placeholder="Write in any language. The spirits understand all tongues..."></textarea>
+    </div>
+    <div class="form-group full-width">
+      <label>How long have you been suffering?</label>
+      <div class="radio-group wrap">
+        <label class="radio-label"><input type="radio" name="duration" value="days" /> <span>Days</span></label>
+        <label class="radio-label"><input type="radio" name="duration" value="weeks" /> <span>Weeks</span></label>
+        <label class="radio-label"><input type="radio" name="duration" value="months" /> <span>Months</span></label>
+        <label class="radio-label"><input type="radio" name="duration" value="years" /> <span>Years</span></label>
+        <label class="radio-label"><input type="radio" name="duration" value="decades" /> <span>Decades</span></label>
+      </div>
+    </div>
+    <div class="form-group full-width">
+      <label>Do you suspect someone specific?</label>
+      <div class="radio-group">
+        <label class="radio-label"><input type="radio" name="suspect" value="yes" /> <span>Yes</span></label>
+        <label class="radio-label"><input type="radio" name="suspect" value="no" /> <span>No</span></label>
+        <label class="radio-label"><input type="radio" name="suspect" value="unsure" /> <span>Unsure</span></label>
+      </div>
+    </div>
+  </div>
+
+  <button class="cta-btn" onclick="goToReading()">
+    <span class="btn-rune">ᚠ</span> Summon the Oracle's Wisdom <span class="btn-rune">ᚠ</span>
+  </button>
+</div>
+
+<!-- RITUAL / LOADING SCREEN -->
+<div id="ritual-screen" class="screen">
+  <div class="ritual-circle">
+    <div class="ritual-ring r1"></div>
+    <div class="ritual-ring r2"></div>
+    <div class="ritual-ring r3"></div>
+    <div class="ritual-candles">
+      <span>🕯</span><span>🕯</span><span>🕯</span><span>🕯</span><span>🕯</span>
+    </div>
+    <div class="ritual-eye">👁️</div>
+  </div>
+  <h2 class="ritual-title">The Oracle Reads the Shadows...</h2>
+  <div class="ritual-status" id="ritual-status">Consulting the ancient scrolls...</div>
+  <div class="ritual-progress"><div class="ritual-bar" id="ritual-bar"></div></div>
+</div>
+
+<!-- ORACLE / READING SCREEN -->
+<div id="oracle-screen" class="screen">
+  <div class="tantrik-profile">
+    <div class="tantrik-avatar" id="tantrik-avatar">🧿</div>
+    <div class="tantrik-info">
+      <div class="tantrik-name" id="tantrik-name">Loading...</div>
+      <div class="tantrik-title" id="tantrik-title">Grand Tantrik</div>
+      <div class="tantrik-badges">
+        <span class="badge">⚡ 40 Yrs Exp</span>
+        <span class="badge">🌍 Global Reach</span>
+        <span class="badge">🔮 5000+ Cases</span>
+        <span class="badge verified">✓ Verified Oracle</span>
+      </div>
+      <div class="tantrik-online"><span class="online-dot"></span> Online Now — Awaiting Your Case</div>
+    </div>
+  </div>
+
+  <div class="oracle-reading-box">
+    <div class="oracle-reading-header">📜 Your Oracle Reading</div>
+    <div class="oracle-text" id="oracle-text"></div>
+  </div>
+
+  <div class="remedy-section">
+    <h3>🕯️ Prescribed Rituals & Remedies</h3>
+    <div id="remedy-list" class="remedy-list"></div>
+  </div>
+
+  <div class="connect-section">
+    <h3>🔗 Connect with Your Tantrik Directly</h3>
+    <p>The oracle has matched you with a specialist for your faith and affliction.</p>
+    <div class="connect-buttons">
+      <button class="connect-btn whatsapp" onclick="fakeConnect('whatsapp')">💬 WhatsApp Consultation</button>
+      <button class="connect-btn call" onclick="fakeConnect('call')">📞 Sacred Phone Call</button>
+      <button class="connect-btn chat" onclick="fakeConnect('chat')">🔮 Live Oracle Chat</button>
+      <!-- API SLOT: Replace fakeConnect() with real API integration -->
+    </div>
+    <div id="connect-message" class="connect-message hidden"></div>
+  </div>
+
+  <div class="warning-box">
+    <span>⚠️</span> This site is a creative fictional experience. No real supernatural services are provided. For mental health, please seek professional support.
+  </div>
+
+  <button class="cta-btn secondary" onclick="restart()">🌑 Start a New Consultation</button>
+</div>
+
+<!-- FLOATING ELEMENTS -->
+<div class="floating-sigils" id="floating-sigils"></div>
+
+<!-- CURSOR -->
+<div class="custom-cursor" id="cursor"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
